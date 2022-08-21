@@ -1,0 +1,1 @@
+import {default as pokeApi} from '../api/pokedexApi';
