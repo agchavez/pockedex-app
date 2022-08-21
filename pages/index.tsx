@@ -1,4 +1,4 @@
-import { Button, Card, Grid, Row, Text } from "@nextui-org/react";
+import { Grid} from "@nextui-org/react";
 import type { NextPage } from "next";
 import styles from "../styles/Home.module.css";
 import { Layout } from "../components/layouts";
@@ -15,19 +15,10 @@ const Home: NextPage<HomeProps> = ({ pokemons }) => {
         width: "100%",
       }}>
         {pokemons?.map((pokemon) => (
-          <Grid key={pokemon._id}>
-            <Card hoverable clickable>
-              <Card.Body css={{ p: 1 }}>
-                <Card.Image src={pokemon.urlImage} width="100%" height={140} />
-              </Card.Body>
-              <Card.Footer>
-                <Row justify="space-between">
-                  <Text>{pokemon.name}</Text>
-                  <Text>{pokemon.number}</Text>
-                </Row>
-              </Card.Footer>
-            </Card>
-          </Grid>
+            <PockemonItem 
+              key={pokemon._id}
+              pokemon={pokemon}
+            />
         ))}
       </Grid.Container>
     </div>
@@ -36,6 +27,7 @@ const Home: NextPage<HomeProps> = ({ pokemons }) => {
 import { GetServerSideProps } from "next";
 import pokedexApi from "../api/pokedexApi";
 import { Pockemon, PockeResponse } from "../interfaces/pockedex-response";
+import { PockemonItem } from "../components/pokemon";
 
 // Funciopn solo se ejecuta en el servidor antes de renderizar la página y retona las props para la página
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

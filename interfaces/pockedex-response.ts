@@ -9,6 +9,7 @@ export interface Pockemon {
     type:     Type;
     number:   number;
     urlImage: string;
+    dream_world?: string;
     __v:      number;
 }
 
