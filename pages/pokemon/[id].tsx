@@ -1,14 +1,22 @@
-import React, { FC } from "react";
-import { Button, Card, Grid, Text } from "@nextui-org/react";
+import React, { FC, useEffect, useState } from "react";
+
+import { Button, Card, Grid, Spacer, Text } from "@nextui-org/react";
 
 import { Layout } from "../../components/layouts";
 import { Pockemon, PockeResponse } from "../../interfaces/pockedex-response";
+import { toggleFavorite, existsFavorite } from "../../utils";
 
 interface HomeProps {
   pokemon: Pockemon | undefined;
 }
 
 const PokemonPage: FC<HomeProps> = ({ pokemon }) => {
+  const [exists, setexists] = useState(existsFavorite(pokemon?._id));
+
+  const handleAddLocalStorage = () => {
+    toggleFavorite(pokemon);
+    setexists(!exists);
+  };
   return (
     <Layout title={pokemon ? pokemon.name : "Pokemon"}>
       <Grid.Container css={{ marginTop: "5px" }} gap={2}>
@@ -27,9 +35,28 @@ const PokemonPage: FC<HomeProps> = ({ pokemon }) => {
         <Grid xs={12} sm={8}>
           <Card hoverable css={{ padding: "30px" }}>
             <Card.Body css={{ p: 1 }}>
-              <Text transform="capitalize" h1>
-                {pokemon?.name || ""}
-              </Text>
+              <div
+                style={{
+                  display: "flex",
+                }}
+              >
+                <Text transform="capitalize" h1>
+                  {pokemon?.name || ""}
+                </Text>
+                <Spacer css={{ flex: 1 }} />
+                <Button
+                  color="gradient"
+                  shadow
+                  bordered = {!exists}
+                  css={{
+                    marginTop: "20px",
+                  }}
+                  size="sm"
+                  onClick={handleAddLocalStorage}
+                >
+                  <Text h4>Favorito</Text>
+                </Button>
+              </div>
               <Text h1>#{pokemon?.number || ""}</Text>
               <Button
                 bordered
@@ -40,7 +67,7 @@ const PokemonPage: FC<HomeProps> = ({ pokemon }) => {
                 }}
                 clickable={false}
               >
-                {pokemon?.type}
+                 <Text h3 color="success">{pokemon?.type}</Text>
               </Button>
             </Card.Body>
           </Card>
